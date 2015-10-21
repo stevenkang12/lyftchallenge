@@ -53,7 +53,7 @@ def example():
     sorteddist = sorted(distance, key=lambda x:x[1])
     minidx = sorteddist[0][0] # Grabs the idx.
     # Print out an appropriate response.
-    print "The shorter path involves the following points in order:"
+    print "The shortest path involves the following points in order:"
     for p in paths[minidx]:
         print "\t%s: (%f, %f)" % (p.name, p.latitude, p.longitude)
     
