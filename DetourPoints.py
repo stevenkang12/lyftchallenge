@@ -1,14 +1,16 @@
 # Steven Kang
 # Lyft Programming Challenge
 # Oct. 20, 2015
-# Description: This finds the minimum distance between opposing paths according to their latitude and longitude on Earth. Values are returned in miles and distance is calculated using the Haversine formula.
+# Description: This finds the minimum distance between opposing paths according to their latitude and longitude on Earth. 
+# Values are returned in miles and distance is calculated using the Haversine formula.
 
 import math # Needed for invsin
 
 class Point(object):
-    def __init__(self, lat, lon):
+    def __init__(self, lat, lon, name=None):
         self.latitude = float(lat)
         self.longitude = float(lon)
+        self.name = name
    
     def set_latitude(self, val):
         self.latitude = val
@@ -16,8 +18,11 @@ class Point(object):
     def set_longitude(self, val):
         self.longitude = val
 
+    def set_name(self, val):
+        self.name = val
+
     def __repr__(self):
-        return "<Point, latitude:%f, longitude:%f>" % (self.latitude, self.longitude)
+        return "<Point, latitude:%f, longitude:%f, name:%s>" % (self.latitude, self.longitude, self.name)
 
 # use the Haversine formula
 # Inputs: P1 & P2 are two point objects.
@@ -33,24 +38,24 @@ def distanceBetweenPoints(P1, P2):
 
 # pointsArr stores all of the points. 
 # The distance of a path is the summed distance of each sequential pair of points. 
-def distanceInPath(self, pointsArr):
+def distanceInPath(pointsArr):
     num = len(pointsArr)
     pairs = [distanceBetweenPoints(i,j) for i,j in zip(pointsArr[:num-1],pointsArr[1:num])]
     return sum(pairs)
 
 def example():
     # Define 4 example points.
-    A, B, C, D = Point(25, 75), Point(35, 55), Point(15, 100), Point(35, 100)
+    A, B, C, D = Point(25, 75, 'A'), Point(35, 55, 'B'), Point(15, 100, 'C'), Point(35, 100, 'D')
     # Define 2 paths.
     paths = [[A, C, D, B], [C, A, B, D]]
     # Calculate the points for both.
-    distance = [[i, distanceInPath(p)] for i, p in enumerate([path1, path2])]
+    distance = [[i, distanceInPath(p)] for i, p in enumerate(paths)]
     sorteddist = sorted(distance, key=lambda x:x[1])
     minidx = sorteddist[0][0] # Grabs the idx.
     # Print out an appropriate response.
     print "The shorter path involves the following points in order:"
     for p in paths[minidx]:
-        print "\t(%f, %f)" % (p.latitude, p.longitude)
+        print "\t%s: (%f, %f)" % (p.name, p.latitude, p.longitude)
     
 if __name__ == "__main__":
     example()
